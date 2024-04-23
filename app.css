@@ -1,0 +1,219 @@
+/* basic reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* color variables, create palette of pale yellow orange red colors, set in CSS variables */
+:root {
+    --pale-yellow: #dacece;
+    --pale-orange: #f9d9d9;
+    --pale-red: #f9c3c3;
+    --light: #ffffff;
+    --dark: #333333;
+    --border-radius: 10px;
+    --padding: 40px;
+    --gap: 20px;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--dark);
+    margin: var(--gap);
+}
+
+/*
+gridContainer
+gridItem
+gridCTA
+ctaItem
+buyNow
+action
+download
+*/
+
+.gridContainer {
+    max-width: 1920px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap);
+}
+
+.gridItem:nth-child(1) {
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: 2fr minmax(40%, 1fr);
+    gap: var(--gap);
+}
+
+.featureImage {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+}
+
+.featureImageWrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+}
+
+.ctasWrapper {
+    display: grid;
+    gap: var(--gap);
+    grid-template-rows: auto 1fr;
+}
+
+.ctaItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--padding);
+    gap: var(--gap);
+    border-radius: var(--border-radius);
+    background-color: var(--pale-yellow);
+}
+
+.ctaItem:nth-child(2) {
+    padding: 0;
+    background-color: transparent;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+
+
+
+.buyNow {
+    background-color: var(--pale-orange);
+    display: block;
+    padding: 0 var(--padding);
+    border-radius: var(--border-radius);
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+/* add right arrow at the end with pseudo elemnt */
+.buyNow::after {
+    content: '→';
+    font-size: 40px;
+    position: absolute;
+    top: 48%;
+    right: 60px;
+    transform: translateY(-50%);
+    transition: transform 0.3s;
+}
+
+/* on hover, move the arrow to the right */
+.buyNow:hover {
+    background-color: var(--pale-red);
+}
+
+.buyNow:hover::after {
+    transform: translateX(10px) translateY(-50%);
+}
+
+
+
+.gridItem:not(:first-child) a {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s;
+    text-decoration: none;
+    padding: var(--padding);
+    background-color: var(--pale-red);
+    border-radius: var(--border-radius);
+}
+
+.action::after,
+.download::after {
+    content: '→';
+    margin-left: 10px;
+    font-size: 40px;
+    position: absolute;
+    top: 48%;
+    transform: translateY(-50%);
+    transition: transform 0.3s;
+}
+
+.action:hover,
+.download:hover {
+    background-color: var(--pale-orange);
+}
+
+.action:hover::after,
+.download:hover::after {
+    transform: translateX(10px) translateY(-50%);
+}
+
+.moreInfo {
+    opacity: 0;
+    pointer-events: none;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    max-height: 100%;
+    position: fixed;
+    background-color: #000000d9;
+    padding: var(--padding);
+    z-index: 98;
+    transition: opacity 0.3s;
+    display: grid;
+    place-items: center;
+}
+
+.moreInfo.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.moreInfoInner {
+    max-width: 700px;
+    margin: auto;
+    padding: var(--padding);
+    background-color: var(--pale-yellow);
+    border-radius: var(--border-radius);
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.closeReadMore.closeReadMore.closeReadMore {
+    pointer-events: none;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-size: 2rem;
+    text-decoration: none;
+    padding: 6px;
+    background-color: transparent;
+    color: #ffffff;
+    z-index: 99;
+}
+
+.moreInfo p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin: 30px 10px
+}
+
+/* paypal */
+select#selector {
+    font-size: 1rem;
+    font-family: arial;
+}
