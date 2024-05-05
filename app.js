@@ -37,4 +37,16 @@ closeReadMore
         }
     });
 
+
+    /* toggle moreOptionsWrapper content on moreOptions click */
+    let moreOptions = document.querySelectorAll('.moreOptions');
+    let moreOptionsWrapper = document.querySelectorAll('.moreOptionsWrapper');
+
+    moreOptions.forEach((moreOption, index) => {
+        moreOption.addEventListener('click', function() {
+            moreOptionsWrapper[index].style.display = moreOptionsWrapper[index].style.display === 'flex' ? 'none' : 'flex';
+        });
+        moreOptionsWrapper[index].style.display = 'none';
+    });
+
 }());

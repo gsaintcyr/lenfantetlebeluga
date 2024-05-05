@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Conte pour tous">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <title>L'enfant et le béluga</title>
     <link rel="stylesheet" href="audio.css">
@@ -18,113 +18,124 @@
     <a href="/" class="backHomeLink">Retour à la page d'accueil</a>
 
     <div id='app'>
-        <div id='player-wrapper' :data-show-list="(show_list) ? 'true' : 'false'" :data-show-info="(show_info) ? 'true' : 'false'">
-          <div id='ripple-effect-list' :class="{active: show_list == true}"></div>
-      
-          <div class='toolbar'>
-            <div id='ripple-effect-info' :class="{active: show_info == true}"></div>
-            <div id='close' :class="{show: show_list == true || show_info == true}" @click='show_list = false; show_info = false'>
-              <i class="fas fa-times"></i>
-            </div>
-            <div class='list-icon' @click='show_list = !show_list' v-if='show_list == false && show_info == false'>
-              <i class="fas fa-stream"></i>
-            </div>
-            <div class='info-icon' @click='show_info = !show_info' v-if='show_list == false && show_info == false'>
-              <i class="fas fa-info-circle"></i>
-            </div>
-          </div>
-          <div class='info-container'>
-            <div class='info-wrapper' v-html='info'></div>
-          </div>
-      
-          <div class='playlist-container'>
-            <div class='list-container'>
-              <div class='list-item' v-for='(c, i) in book.chapters' @click='audio_index = i' :class="{active: audio_index == i}">
-                <div class='loading' v-if='is_loading == true'> </div>
-                <div class="title">{{c.name}}</div>
-                <div class='meta'>
-                  <span class=''>{{c.reader}}</span>
-                  <span class=''>{{c.duration}}</span>
+        <div id='player-wrapper' :data-show-list="(show_list) ? 'true' : 'false'"
+            :data-show-info="(show_info) ? 'true' : 'false'">
+            <div id='ripple-effect-list' :class="{active: show_list == true}"></div>
+
+            <div class='toolbar'>
+                <div id='ripple-effect-info' :class="{active: show_info == true}"></div>
+                <div id='close' :class="{show: show_list == true || show_info == true}"
+                    @click='show_list = false; show_info = false'>
+                    <i class="fas fa-times"></i>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class='player-container'>
-            <div class="title-container">
-              <div class="title">{{book.title}}</div>
-              <div class="author">{{book.author}}</div>
-            </div>
-            <div class="cover-wrapper">
-              <div class='prev-next'>
-                <div class='prev' :class="{disabled: audio_index <= 0}" @click='playPrev'>
-                  <i class="fas fa-backward"></i>
+                <div class='list-icon' @click='show_list = !show_list' v-if='show_list == false && show_info == false'>
+                    <i class="fas fa-stream"></i>
                 </div>
-      
-                <div class='next' :class="{disabled: audio_index >= book.chapters.length - 1}" @click='playNext'>
-                  <i class="fas fa-forward"></i>
+                <div class='info-icon' @click='show_info = !show_info' v-if='show_list == false && show_info == false'>
+                    <i class="fas fa-info-circle"></i>
                 </div>
-              </div>
-              <spectrum :pins='normlizeAudioPins' v-on:avarage="updateAvarage($event)"></spectrum>
-              <div class='cover' :style='coverArtTransition'>
-                <img src='https://lenfantetlebeluga.com/lenfantetlebeluga.jpeg'>
-              </div>
             </div>
-            <div class="chapter">{{book.chapters[audio_index].name}}</div>
-            <div class="audio-bar-wrapper">
-              <div class="audio-bar-container" @mousedown='barClick'>
-                <div class="bar" ref='bar'>
-                  <span class='loading' v-if='is_loading == true'></span>
-                  <span class='played' :style="{width:handlePosition}"></span>
-                  <span class='buffered' v-for='b in buffered' :style="{left: b.left, width: b.width}"></span>
+            <div class='info-container'>
+                <div class='info-wrapper' v-html='info'></div>
+            </div>
+
+            <div class='playlist-container'>
+                <div class='list-container'>
+                    <div class='list-item' v-for='(c, i) in book.chapters' @click='audio_index = i'
+                        :class="{active: audio_index == i}">
+                        <div class='loading' v-if='is_loading == true'> </div>
+                        <div class="title">{{c.name}}</div>
+                        <div class='meta'>
+                            <span class=''>{{c.reader}}</span>
+                            <span class=''>{{c.duration}}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="handle" id='handle' :style="{left: handlePosition}"></div>
-              </div>
-              <div class="time-container">
-                <div class="current">{{currentTime}}</div>
-                <div class="end">{{endTime}}</div>
-              </div>
             </div>
-            <div class='options'>
-              <div class='speed' @click="toggleSpeed"> {{speed}}x </div>
-              <div class='repeat' @click="repeat = !repeat" :class="{active: repeat == true}">
-                <i class='material-icons'>repeat</i>
-              </div>
-              <div class="auto-playlist" @click="list_play = !list_play" :class="{active: list_play == true}">
-                <i class="material-icons">playlist_play</i>
-              </div>
+            <div class='player-container'>
+                <div class="title-container">
+                    <div class="title">{{book.title}}</div>
+                    <div class="author">{{book.author}}</div>
+                </div>
+                <div class="cover-wrapper">
+                    <div class='prev-next'>
+                        <div class='prev' :class="{disabled: audio_index <= 0}" @click='playPrev'>
+                            <i class="fas fa-backward"></i>
+                        </div>
+
+                        <div class='next' :class="{disabled: audio_index >= book.chapters.length - 1}"
+                            @click='playNext'>
+                            <i class="fas fa-forward"></i>
+                        </div>
+                    </div>
+                    <spectrum :pins='normlizeAudioPins' v-on:avarage="updateAvarage($event)"></spectrum>
+                    <div class='cover' :style='coverArtTransition'>
+                        <img src='https://lenfantetlebeluga.com/lenfantetlebeluga.jpeg'>
+                    </div>
+                </div>
+                <div class="chapter">{{book.chapters[audio_index].name}}</div>
+                <div class="audio-bar-wrapper">
+                    <div class="audio-bar-container" @mousedown='barClick'>
+                        <div class="bar" ref='bar'>
+                            <span class='loading' v-if='is_loading == true'></span>
+                            <span class='played' :style="{width:handlePosition}"></span>
+                            <span class='buffered' v-for='b in buffered' :style="{left: b.left, width: b.width}"></span>
+                        </div>
+                        <div class="handle" id='handle' :style="{left: handlePosition}"></div>
+                    </div>
+                    <div class="time-container">
+                        <div class="current">{{currentTime}}</div>
+                        <div class="end">{{endTime}}</div>
+                    </div>
+                </div>
+                <div class='options'>
+                    <div class='speed' @click="toggleSpeed"> {{speed}}x </div>
+                    <div class='repeat' @click="repeat = !repeat" :class="{active: repeat == true}">
+                        <i class='material-icons'>repeat</i>
+                    </div>
+                    <div class="auto-playlist" @click="list_play = !list_play" :class="{active: list_play == true}">
+                        <i class="material-icons">playlist_play</i>
+                    </div>
+                </div>
+                <div class='controls'>
+                    <div class="decrease-minute" @click="moveAudio('decrease', '60')"
+                        :class='{inactive: current_time < 60}'>-1m
+                    </div>
+                    <div class="decrease-seconds" @click="moveAudio('decrease', '30')"
+                        :class='{inactive: current_time < 30}'>-30s
+                    </div>
+                    <div class="play-pause" @click='playAudio()'>
+                        <i class="fas fa-play" v-if='is_playing == false'></i>
+                        <i class="fas fa-pause" v-if='is_playing == true'></i>
+                    </div>
+                    <div class="increase-seconds" @click="moveAudio('increase', '30')"
+                        :class='{inactive: leftTime < 30}'>+30s
+                    </div>
+                    <div class="increase-minute" @click="moveAudio('increase', '60')"
+                        :class='{inactive: leftTime < 60}'>+1m</div>
+
+                </div>
             </div>
-            <div class='controls'>
-              <div class="decrease-minute" @click="moveAudio('decrease', '60')" :class='{inactive: current_time < 60}'>-1m</div>
-              <div class="decrease-seconds" @click="moveAudio('decrease', '30')" :class='{inactive: current_time < 30}'>-30s</div>
-              <div class="play-pause" @click='playAudio()'>
-                <i class="fas fa-play" v-if='is_playing == false'></i>
-                <i class="fas fa-pause" v-if='is_playing == true'></i>
-              </div>
-              <div class="increase-seconds" @click="moveAudio('increase', '30')" :class='{inactive: leftTime < 30}'>+30s</div>
-              <div class="increase-minute" @click="moveAudio('increase', '60')" :class='{inactive: leftTime < 60}'>+1m</div>
-      
+
+            <div id='error-box' :class="{show: is_error == true}">
+                {{this.error_msg}}
             </div>
-          </div>
-      
-          <div id='error-box' :class="{show: is_error == true}">
-            {{this.error_msg}}
-          </div>
         </div>
-      </div>
-      
-      <template id='spectrum-template'>
+    </div>
+
+    <template id='spectrum-template'>
         <svg id='spectrum'>
-          <polygon x="0" y="0" :points="points"></polygon>
+            <polygon x="0" y="0" :points="points"></polygon>
         </svg>
-      </template>
+    </template>
 
 
 
-        
+
 
 
     </div>
-<div class="credits">Lecteur de livre audio de: <a href="https://codepen.io/khr2003/pen/KKVdZOX">Codepen</a></div>
+    <div class="credits">Lecteur de livre audio de: <a href="https://codepen.io/khr2003/pen/KKVdZOX">Codepen</a></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
     <script src="audio.js"></script>

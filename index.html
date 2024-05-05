@@ -11,20 +11,54 @@
 
     <title>L'enfant et le béluga</title>
     <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="preloader.css">
 </head>
 
 <body>
 
+    <div class='images-intro'>
+        <div id='intro-black-overlay'> </div>
+        <div id='intro-black-up'> </div>
+        <div id='intro-black-down'> </div>
+        <div id='intro-text'>
+            <span>Contre</span>
+            <span>toute</span>
+            <span>attente,</span>
+            <span>Xavier</span>
+            <span>sauve</span>
+            <span>l'environnement</span>
+        </div>
+
+
+
+        <div id='intro-image1' class='intro-zoomout'> </div>
+        <div id='intro-image2' class='intro-zoomout'> </div>
+        <div id='intro-image3' class='intro-zoomout'> </div>
+        <div id='intro-image4' class='intro-zoomout'> </div>
+        <div id='intro-image5' class='intro-zoomout'> </div>
+        <div id='intro-image6'> </div>
+        <div id='intro-lines'> 
+        <div id='intro-line1'> </div>
+        <div id='intro-line2'> </div>
+        </div>
+     </div>
+     <script src="preloader.js"></script>
+
     <div class="gridContainer">
         <div class="gridItem gridCTA">
-            <div class="featureImageWrapper">
-                <img src="lenfantetlebeluga.jpeg" alt="Page courverture de L'enfant et le béluga" class="featureImage">
-            </div>
+
             <div class="ctasWrapper">
                 <div class="ctaItem">
                     <h1>L'enfant et le béluga</h1>
-                    <p>Offert à des lecteurs et lectrices de tous âges, L'enfant et le béluga est un conte philosophique
-                        touchant. Il met en scène Xavier, un garçon de sept ans doté d'une ...</p>
+                    <p>Offert à des lecteurs et lectrices de tous âges, L'enfant et le béluga est un conte
+                        philosophique touchant. Il met en scène Xavier, un garçon de sept ans doté d'une
+                        conscience
+                        aiguë de son lien avec la Terre et la nature. La rencontre avec un jeune mammifère
+                        marin, un
+                        béluga du nom de Kamouska, l’entraîne vers une suite de découvertes bouleversantes. Avec
+                        le
+                        soutien d’alliés inattendus, il se lance dans une mission pour combattre un personnage
+                        ayant ...</p>
                     <a href="#" class="readMore">En savoir plus</a>
                     <div class="moreInfo">
                         <div class="moreInfoInner">
@@ -59,7 +93,7 @@
                     </div>
                 </div>
                 <div class="ctaItem">
-                    <a href="" class="buyNow readMore">Achetez directement de l'autrice</a>
+                    <a href="" class="buyNow readMore">Achetez le livre</a>
                     <div class="moreInfo">
                         <div class="moreInfoInner">
                             <h2>
@@ -76,60 +110,76 @@
                                     hostedButtonId: "CGKKVZF5DSMZS",
                                 }).render("#paypal-container-CGKKVZF5DSMZS")
                             </script>
+
+                            <button class="moreOptions">Voir plus d'options d'achats</button>
+                            <div class="moreOptionsWrapper">
+                                <a href="" class="buyNow">Achetez chez Archambault</a>
+                                <a href="" class="buyNow">Achetez chez Renault-Bray</a>
+                                <a href="https://www.leslibraires.ca/" class="buyNow">Achetez chez LesLibraires</a>
+                                <a href="https://www.leslibraires.ca/" class="buyNow">Achetez chez l'éditeur</a>
+                            </div>
                         </div>
                         <a href="#" onclick="event.preventDefault();" class="closeReadMore">X</a>
                     </div>
-
-
-                    <a href="" class="buyNow">Achetez chez Archambault</a>
-                    <a href="" class="buyNow">Achetez chez Renault-Bray</a>
-                    <a href="https://www.leslibraires.ca/" class="buyNow">Achetez chez LesLibraires</a>
-                    <a href="https://www.leslibraires.ca/" class="buyNow">Achetez chez l'éditeur</a>
                 </div>
-            </div>
-        </div>
 
-        <div class="gridItem">
-            <a href="livre-audio.html" class="action">Écouter le livre audio</a>
-        </div>
-
-        <div class="gridItem">
-            <a href="livre-en-ligne.html" class="action">Lire le conte en ligne</a>
-        </div>
-
-
-        <div class="gridItem">
-            <a href="#" class="action readMore">Écrire à l'autrice</a>
-
-            <div class="moreInfo">
-                <div class="moreInfoInner">
-
-                    <p>Écrivez à l'autrice pour lui partager vos impressions à propos de votre lecture ou pour lui poser
-                        des
-                        questions.
-                    </p>
-                    <p>Envoyez un courriel à: gsaintcyr56@gmail.com</p>
+                <div class="ctaItem">
+                    <a href="livre-audio.html" class="action">Écouter le livre audio</a>
                 </div>
-                <a href="#" onclick="event.preventDefault();" class="closeReadMore">X</a>
+
+                <div class="ctaItem">
+                    <a href="livre-en-ligne.html" class="action">Lire le conte en ligne</a>
+                </div>
+
+
+                <div class="ctaItem">
+                    <a href="" class="buyNow readMore">Télécharger le livre</a>
+                    <div class="moreInfo">
+                        <div class="moreInfoInner">
+                            <p> Télécharger le livre audio, pdf ou epub et faites en la lecture a vôtre liberté.</p>
+                            <a href="lenfantetlebeluga.mp3" class="download" download>Télécharger le livre audio</a>
+                            <a href="lenfantetlebeluga.pdf" class="download" download>Télécharger le PDF</a>
+                            <a href="lenfantetlebeluga.epub" class="download" download>Télécharger le EPUB</a>
+                        </div>
+                        <a href="#" onclick="event.preventDefault();" class="closeReadMore">X</a>
+                    </div>
+                </div>
+
+                <div class="ctaItem">
+                    <a href="#" class="action readMore">Écrire à l'autrice</a>
+    
+                    <div class="moreInfo">
+                        <div class="moreInfoInner">
+    
+                            <p>Écrivez à l'autrice pour lui partager vos impressions à propos de votre lecture ou pour lui
+                                poser
+                                des
+                                questions.
+                            </p>
+                            <p>Envoyez un courriel à: gsaintcyr56@gmail.com</p>
+                        </div>
+                        <a href="#" onclick="event.preventDefault();" class="closeReadMore">X</a>
+                    </div>
+                </div>
+
+
             </div>
+
+            <div class="featureImageWrapper">
+                <img src="lenfantetlebeluga.jpeg" alt="Page courverture de L'enfant et le béluga"
+                    class="featureImage">
+            </div>
+                
+
+            </div>
+
+
+            
+
         </div>
 
-        <div class="gridItem">
-            <a href="lenfantetlebeluga.mp3" class="download" download>Télécharger le livre audio</a>
-        </div>
 
-        <div class="gridItem">
-            <a href="lenfantetlebeluga.pdf" class="download" download>Télécharger le PDF</a>
-        </div>
-
-        <div class="gridItem">
-            <a href="lenfantetlebeluga.epub" class="download" download>Télécharger le EPUB</a>
-        </div>
-
-    </div>
-
-
-    <script src="app.js"></script>
+        <script src="app.js"></script>
 </body>
 
 </html>

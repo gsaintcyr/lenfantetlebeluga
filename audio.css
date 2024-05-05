@@ -30,10 +30,15 @@
 }
 
 html {
-  font-size: 80.5%;
+  font-size: 90%;
   user-select: none;
 }
 
+@media (max-width: 360px) or (max-height: 660px) {
+  html {
+    font-size: 70%;
+  }
+}
 body {
   height: 100%;
   width: 100%;

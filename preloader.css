@@ -1,0 +1,313 @@
+body.elementor-editor-active .images-intro {
+    display: none;
+}
+
+.images-intro {
+    display: none;
+}
+
+@supports (animation-name: test) {
+    :root {
+        --animation-default-play-state: paused;
+    }
+
+    #intro-text {
+        width: 100%;
+        height: 78%;
+        left: 0;
+        margin: auto;
+        z-index: 999999;
+        position: fixed;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    #intro-text span {
+        color: #fff;
+        font-size: 32px;
+    }
+
+    #intro-text span:nth-child(1) {
+        animation: zoomFadeIn 0.8s both cubic-bezier(.56, .17, .68, 1);
+    }
+
+    #intro-text span:nth-child(2) {
+        animation: zoomFadeIn 0.8s 0.4s both cubic-bezier(.56, .17, .68, 1);
+    }
+
+    #intro-text span:nth-child(3) {
+        animation: zoomFadeIn 0.8s 0.8s both cubic-bezier(.56, .17, .68, 1);
+    }
+
+    #intro-text span:nth-child(4) {
+        font-size: 40px;
+        position: fixed;
+        top: calc(39% + 70px);
+        left: calc(50% - 120px);
+        animation: zoomFadeIn 1.2s 1.4s both cubic-bezier(.56, .17, .68, 1);
+    }
+
+    #intro-text span:nth-child(5) {
+        font-size:43.2px;
+        position: fixed;
+        top: calc(39% + 110px);
+        left: calc(50% + 10px);
+        animation: zoomFadeIn 1.2s 2.2s both cubic-bezier(.56, .17, .68, 1);
+
+    }
+
+    #intro-text span:nth-child(6) {
+        font-size: 54px;
+        position: fixed;
+        top: calc(39% + 170px);
+        left: calc(50% - 164px);
+        animation: zoomFadeIn 1.4s 3s both cubic-bezier(.56, .17, .68, 1);
+    }
+
+    #intro-text span.fadeOut {
+        animation: fadeOut 0.3s 0.2s forwards cubic-bezier(.56, .17, .68, 1);
+    }
+
+    @media (max-width: 540px) {
+        #intro-text span:nth-child(6) {
+            font-size: 44px;
+        }
+    }
+
+    @keyframes zoomFadeIn {
+        0% {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .images-intro {
+        pointer-events: none;
+        display: block;
+    }
+
+    #intro-black-overlay {
+        animation: .9s forwards fadeOut cubic-bezier(.56, .17, .68, 1);
+        top: 0;
+        height: 100%;
+    }
+
+    #intro-black-up {
+        animation: 3.9s forwards slideUp cubic-bezier(.56, .17, .68, 1);
+        height: 36%;
+        top: 0;
+    }
+
+    #intro-black-down {
+        animation: 3.9s forwards slideDown cubic-bezier(.56, .17, .68, 1);
+        bottom: 0;
+        height: 36%;
+    }
+
+    #intro-black-overlay,
+    #intro-black-up,
+    #intro-black-down {
+        animation-play-state: var(--animation-default-play-state);
+        background-color: #000;
+        /* Color before the animation starts, and of the top and down rectangles that are moving out */
+        left: 0;
+        position: fixed;
+        width: 100%;
+        z-index: 99999;
+    }
+
+    #intro-image1 {
+        animation: .09s forwards fadeOutQuick linear 1.9s;
+        background-image: url(https://templates.element.how/wp-content/uploads/2021/07/main1.jpg);
+        z-index: 99998;
+    }
+
+    #intro-image2 {
+        animation: .09s forwards fadeOutQuick linear 2.2s;
+        background-image: url(https://templates.element.how/wp-content/uploads/2021/05/fashion-821506_1920.jpg);
+        z-index: 99997;
+    }
+
+    #intro-image3 {
+        animation: .09s forwards fadeOutQuick linear 2.9s;
+        background-image: url(https://templates.element.how/wp-content/uploads/2021/05/mountain-1.jpg);
+        z-index: 99996;
+    }
+
+    #intro-image4 {
+        animation: .09s forwards fadeOutQuick linear 3.3s;
+        background-image: url(https://templates.element.how/wp-content/uploads/2021/05/womanseetext.jpg);
+        z-index: 99995;
+    }
+
+    #intro-image5 {
+        animation: .09s forwards fadeOutQuick linear 3.6s;
+        background-image: url(https://templates.element.how/wp-content/uploads/2021/05/arbre.jpg);
+        z-index: 99994;
+    }
+
+    #intro-image6 {
+        animation: .6s forwards slideLeft cubic-bezier(.56, .17, .68, 1) 4.3s;
+        background-image: url(https://templates.element.how/wp-content/uploads/2021/05/girl-2969351_1920.jpg);
+        animation-play-state: var(--animation-default-play-state);
+        z-index: 99992;
+    }
+
+    #intro-image1,
+    #intro-image2,
+    #intro-image3,
+    #intro-image4,
+    #intro-image5,
+    #intro-image6 {
+        animation-play-state: var(--animation-default-play-state);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-position: center center;
+        background-size: cover;
+        transition: transform 4.3s linear;
+    }
+
+    #intro-lines {
+        animation: .6s forwards slideLeft cubic-bezier(.56, .17, .68, 1) 4.3s;
+        left: 0;
+        width: 100%;
+    }
+
+    #intro-line1 {
+        animation: .3s forwards showintro-lines cubic-bezier(.56, .17, .68, 1) 4.3s;
+        left: 29%;
+        transform: scaleX(0);
+        width: 8%;
+        background-color: #111;
+        /* Color of the line that appears at the end on the image while it's all moving to the left */
+    }
+
+    #intro-line2 {
+        animation: .3s forwards showintro-lines cubic-bezier(.56, .17, .68, 1) 4.3s;
+        left: 71%;
+        transform: scaleX(0);
+        width: 8%;
+        background-color: #111;
+        /* Color of the line that appears at the end on the image while it's all moving to the left */
+    }
+
+    #intro-lines,
+    #intro-line1,
+    #intro-line2 {
+        top: 0;
+        z-index: 99993;
+        position: fixed;
+        height: 100%;
+        animation-play-state: var(--animation-default-play-state);
+    }
+
+    .page-hero-content {
+        animation: .6s forwards slideLeftPageContent cubic-bezier(.56, .17, .68, 1) 4.3s;
+        animation-play-state: var(--animation-default-play-state);
+    }
+
+    #intro-image1.play,
+    #intro-image2.play,
+    #intro-image3.play,
+    #intro-image4.play,
+    #intro-image5.play,
+    #intro-image6.play,
+    #intro-black-overlay.play,
+    #intro-black-up.play,
+    #intro-black-down.play,
+    #intro-lines.play,
+    #intro-line1.play,
+    #intro-line2.play,
+    .play {
+        animation-play-state: running;
+    }
+
+    #intro-image1.intro-zoomout,
+    #intro-image2.intro-zoomout,
+    #intro-image3.intro-zoomout,
+    #intro-image4.intro-zoomout,
+    #intro-image5.intro-zoomout {
+        transform: scale(1.2);
+    }
+
+    @keyframes slideUp {
+        0% {
+            transform: translateY(0%);
+        }
+
+        100% {
+            transform: translateY(-100%);
+        }
+    }
+
+    @keyframes slideDown {
+        0% {
+            transform: translateY(0%);
+        }
+
+        100% {
+            transform: translateY(100%);
+        }
+    }
+
+    @keyframes slideLeft {
+        0% {
+            transform: translateX(0%);
+        }
+
+        100% {
+            transform: translateX(-110%);
+        }
+    }
+
+    @keyframes slideLeftPageContent {
+        0% {
+            transform: translateX(110%);
+        }
+
+        100% {
+            transform: translateX(0%);
+        }
+    }
+
+    @keyframes showintro-lines {
+        0% {
+            transform: scaleX(0);
+        }
+
+        100% {
+            transform: scaleX(1);
+        }
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeOutQuick {
+        0% {
+            opacity: 1;
+        }
+
+        1%,
+        100% {
+            opacity: 0;
+        }
+    }
+}
