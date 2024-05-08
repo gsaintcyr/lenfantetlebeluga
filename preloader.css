@@ -125,37 +125,37 @@ body.elementor-editor-active .images-intro {
 
     #intro-image1 {
         animation: .09s forwards fadeOutQuick linear 1.9s;
-        background-image: url(https://templates.element.how/wp-content/uploads/2021/07/main1.jpg);
+        background-image: url(/img/PXL_20240403_130644500.jpg);
         z-index: 99998;
     }
 
     #intro-image2 {
         animation: .09s forwards fadeOutQuick linear 2.2s;
-        background-image: url(https://templates.element.how/wp-content/uploads/2021/05/fashion-821506_1920.jpg);
+        background-image: url(/img/Le conseil des Sages-2.jpg);
         z-index: 99997;
     }
 
     #intro-image3 {
         animation: .09s forwards fadeOutQuick linear 2.9s;
-        background-image: url(https://templates.element.how/wp-content/uploads/2021/05/mountain-1.jpg);
+        background-image: url(/img/conte attaque corbeau.jpg);
         z-index: 99996;
     }
 
     #intro-image4 {
         animation: .09s forwards fadeOutQuick linear 3.3s;
-        background-image: url(https://templates.element.how/wp-content/uploads/2021/05/womanseetext.jpg);
+        background-image: url(/img/La Reine-Pieuvre-2.jpg);
         z-index: 99995;
     }
 
     #intro-image5 {
         animation: .09s forwards fadeOutQuick linear 3.6s;
-        background-image: url(https://templates.element.how/wp-content/uploads/2021/05/arbre.jpg);
+        background-image: url(/img/conte Xavier vibre ruisseau.jpg);
         z-index: 99994;
     }
 
     #intro-image6 {
         animation: .6s forwards slideLeft cubic-bezier(.56, .17, .68, 1) 4.3s;
-        background-image: url(https://templates.element.how/wp-content/uploads/2021/05/girl-2969351_1920.jpg);
+        background-image: url(/img/conte harfang.jpg);
         animation-play-state: var(--animation-default-play-state);
         z-index: 99992;
     }
