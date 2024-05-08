@@ -4,29 +4,14 @@ const book = {
     cover_art:
         "https://lenfantetlebeluga.com/lenfantetlebeluga.jpeg",
     info: [
-        'Crime and Punishment is the Fyodor Dostoyevsky\'s full-length novel"',
+        'Lenfant et le béluga',
     ],
     chapters: [
         {
-            name: "Preface",
-            link:
-                "https://ia800604.us.archive.org/20/items/crime_punishment_3_1708_librivox/crimepunishment_00_dostoyevsky_128kb.mp3",
-            reader: "Mark Nelson",
-            duration: "00:05:38"
-        },
-        {
-            name: "Part 1 Chapter 1",
-            link:
-                "https://ia800604.us.archive.org/20/items/crime_punishment_3_1708_librivox/crimepunishment_01_dostoyevsky_128kb.mp3",
-            reader: "Mark Nelson",
-            duration: "00:21:23"
-        },
-        {
-            name: "Part 1 Chapter 2",
-            link:
-                "https://ia800604.us.archive.org/20/items/crime_punishment_3_1708_librivox/crimepunishment_02_dostoyevsky_128kb.mp3",
-            reader: "Mark Nelson",
-            duration: "00:46:57"
+            name: "L'enfant et le béluga",
+            link: "Lenfant_et_le_béluga_Kamouska.mp3",
+            reader: "Eve Landry",
+            duration: "00:48:43"
         },
     ]
 };
