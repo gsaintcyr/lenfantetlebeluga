@@ -174,7 +174,8 @@ body.elementor-editor-active .images-intro {
         bottom: 0;
         background-position: center center;
         background-size: contain;
-        background-color: #000000;        
+        background-color: #000000;
+        background-repeat: no-repeat;
         transition: transform 4.3s linear;
     }
 
