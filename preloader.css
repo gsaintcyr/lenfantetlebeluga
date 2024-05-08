@@ -173,7 +173,8 @@ body.elementor-editor-active .images-intro {
         right: 0;
         bottom: 0;
         background-position: center center;
-        background-size: cover;
+        background-size: contain;
+        background-color: #000000;        
         transition: transform 4.3s linear;
     }
 
