@@ -131,31 +131,31 @@ body.elementor-editor-active .images-intro {
 
     #intro-image2 {
         animation: .09s forwards fadeOutQuick linear 2.2s;
-        background-image: url(/img/Le conseil des Sages-2.jpg);
+        background-image: url(/img/Le%20conseil%20des%20Sages-2.jpg);
         z-index: 99997;
     }
 
     #intro-image3 {
         animation: .09s forwards fadeOutQuick linear 2.9s;
-        background-image: url(/img/conte attaque corbeau.jpg);
+        background-image: url(/img/conte%20attaque%20corbeau.jpg);
         z-index: 99996;
     }
 
     #intro-image4 {
         animation: .09s forwards fadeOutQuick linear 3.3s;
-        background-image: url(/img/La Reine-Pieuvre-2.jpg);
+        background-image: url(/img/La%20Reine-Pieuvre-2.jpg);
         z-index: 99995;
     }
 
     #intro-image5 {
         animation: .09s forwards fadeOutQuick linear 3.6s;
-        background-image: url(/img/conte Xavier vibre ruisseau.jpg);
+        background-image: url(/img/conte%20Xavier%20vibre%20ruisseau.jpg);
         z-index: 99994;
     }
 
     #intro-image6 {
         animation: .6s forwards slideLeft cubic-bezier(.56, .17, .68, 1) 4.3s;
-        background-image: url(/img/conte harfang.jpg);
+        background-image: url(/img/conte%20harfang.jpg);
         animation-play-state: var(--animation-default-play-state);
         z-index: 99992;
     }
