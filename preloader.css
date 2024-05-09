@@ -130,23 +130,23 @@ body.elementor-editor-active .images-intro {
     }
 
     #intro-image2 {
-        animation: .09s forwards fadeOutQuick linear 2.2s;
-        background-image: url(/img/Le_conseil_des_Sages-2.jpg);
+        animation: .09s forwards fadeOutQuick linear 2.9s;
+        background-image: url(/img/conte_attaque_corbeau.jpg);
         z-index: 99997;
     }
 
     #intro-image3 {
-        animation: .09s forwards fadeOutQuick linear 2.9s;
-        background-image: url(/img/conte_attaque_corbeau.jpg);
+        animation: .09s forwards fadeOutQuick linear 3.6s;
+        background-image: url(/img/conte_Xavier_vibre_ruisseau.jpg);
         z-index: 99996;
     }
 
     #intro-image4 {
-        animation: .09s forwards fadeOutQuick linear 3.3s;
-        background-image: url(/img/La_Reine-Pieuvre-2.jpg);
+        animation: .6s forwards slideLeft cubic-bezier(.56, .17, .68, 1) 4.3s;
+        background-image: url(/img/conte_harfang.jpg);
         z-index: 99995;
     }
-
+/*
     #intro-image5 {
         animation: .09s forwards fadeOutQuick linear 3.6s;
         background-image: url(/img/conte_Xavier_vibre_ruisseau.jpg);
@@ -159,7 +159,7 @@ body.elementor-editor-active .images-intro {
         animation-play-state: var(--animation-default-play-state);
         z-index: 99992;
     }
-
+*/
     #intro-image1,
     #intro-image2,
     #intro-image3,
