@@ -6,7 +6,7 @@ var supportsCSS = !!((window.CSS && window.CSS.supports) || window.supportsCSS |
 if (supportsCSS && CSS.supports("animation-name", "test")) {
 
     let textDivs = document.querySelectorAll('#intro-text span');
-    let textDiv = document.querySelector('#intro-text span:nth-child(4)');
+    let textDiv = document.querySelector('#intro-text span:nth-child(6)');
 
     /* add animationend event listener to the textDiv */
     textDiv.addEventListener('animationend', function () {
