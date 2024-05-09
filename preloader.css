@@ -146,7 +146,7 @@ body.elementor-editor-active .images-intro {
         background-image: url(/img/conte_harfang.jpg);
         z-index: 99995;
     }
-/*
+
     #intro-image5 {
         animation: .09s forwards fadeOutQuick linear 3.6s;
         background-image: url(/img/conte_Xavier_vibre_ruisseau.jpg);
@@ -154,12 +154,12 @@ body.elementor-editor-active .images-intro {
     }
 
     #intro-image6 {
-        animation: .6s forwards slideLeft cubic-bezier(.56, .17, .68, 1) 4.3s;
+        animation: .09s forwards fadeOutQuick linear 3.6s;
         background-image: url(/img/conte_harfang.jpg);
         animation-play-state: var(--animation-default-play-state);
         z-index: 99992;
     }
-*/
+
     #intro-image1,
     #intro-image2,
     #intro-image3,
