@@ -28,14 +28,11 @@ if (supportsCSS && CSS.supports("animation-name", "test")) {
 
     });
 
-    /* remove comment to play only one time per browser session
- 
  let oncePerSession = document.querySelector('.images-intro');
  if ((sessionStorage.getItem('played') == '1')) {
     oncePerSession.style.display = 'none';
  } 
  window.sessionStorage.setItem('played', '1');
  
- */
 
 }
