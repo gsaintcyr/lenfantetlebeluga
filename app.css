@@ -119,6 +119,12 @@ download
     padding: var(--padding);
 }
 
+.ctaItem.downloadTheBook .moreInfoInner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
 h1 + p {
     max-height: 14vh;
     overflow: hidden;
