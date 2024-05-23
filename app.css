@@ -312,8 +312,9 @@ select#selector {
     padding-top: 50px;
 }
 
-    .action::after, .download::after {
+    .downloadTheBook .action::after, .downloadTheBook .download::after {
     right: 30px;
+    font-size: 32px;
 }
     
 }
