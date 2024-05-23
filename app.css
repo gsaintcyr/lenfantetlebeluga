@@ -173,7 +173,7 @@ h1 + p {
     font-size: 40px;
     position: absolute;
     top: 54%;
-    right: 60px;
+    right: 40px;
     transform: translateY(-50%);
     transition: transform 0.3s;
 }
