@@ -166,7 +166,7 @@ h1 + p {
     content: '→';
     font-size: 40px;
     position: absolute;
-    top: 48%;
+    top: 54%;
     right: 60px;
     transform: translateY(-50%);
     transition: transform 0.3s;
