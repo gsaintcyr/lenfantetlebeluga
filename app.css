@@ -25,12 +25,35 @@ html, body {
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'AvenirNext-Regular', sans-serif;
     font-size: 1rem;
     line-height: 1.5;
     color: var(--dark);
     margin: var(--gap);
 }
+
+
+        /* load AvenirNext-Italic , bold, normal from google font */
+        @font-face {
+            font-family: 'AvenirNext-Italic';
+            src: url('/fonts/AvenirNext-Italic.ttf') format('truetype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'AvenirNext-Bold';
+            src: url('/fonts/AvenirNext-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'AvenirNext-Regular';
+            src: url('/fonts/AvenirNext-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
 
 /*
 gridContainer
