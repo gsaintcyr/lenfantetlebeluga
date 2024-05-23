@@ -269,7 +269,7 @@ h1 + p {
 .moreInfo p {
     font-size: 1.2rem;
     line-height: 1.5;
-    margin: 30px 10px
+    margin: 30px 0px
 }
 
 /* paypal */
