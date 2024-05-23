@@ -212,7 +212,7 @@ h1 + p {
     margin-left: 10px;
     font-size: 40px;
     position: absolute;
-    top: 48%;
+    top: 54%;
     transform: translateY(-50%);
     transition: transform 0.3s;
 }
