@@ -99,15 +99,17 @@
                                 sauvegarde de l'environnement.
                             </p>
                             <p>Livraison gratuite incluse.</p>
-                            <script
-                                src="https://www.paypal.com/sdk/js?client-id=BAAQmfvuDHTRv98y1u6Q96qvXxL6ovxx_KsflDUWKewoSUA-igrpGWqMmfsYVNZin82jdgm-WRF43xTsys&components=hosted-buttons&disable-funding=venmo&currency=CAD"></script>
-                            <div id="paypal-container-CGKKVZF5DSMZS"></div>
-                            <script>
-                                paypal.HostedButtons({
-                                    hostedButtonId: "CGKKVZF5DSMZS",
-                                }).render("#paypal-container-CGKKVZF5DSMZS")
-                            </script>
-
+                            
+                            <form action="https://www.paypal.com/donate" method="post" target="_top">
+                                <input type="hidden" name="business" value="5U6Z7ZF9WBWLN" />
+                                <input type="hidden" name="amount" value="30" />
+                                <input type="hidden" name="no_recurring" value="1" />
+                                <input type="hidden" name="item_name" value="Un don de $30 en échange d'un exemplaire du conte L'enfant et le béluga, livraison gratuite." />
+                                <input type="hidden" name="currency_code" value="CAD" />
+                                <input type="image" src="https://www.paypalobjects.com/fr_CA/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Bouton Faire un don avec PayPal" />
+                                <img alt="" border="0" src="https://www.paypal.com/fr_CA/i/scr/pixel.gif" width="1" height="1" />
+                            </form>
+                            
                             <button class="moreOptions">Voir plus d'options d'achats</button>
                             <div class="moreOptionsWrapper">
                                 <a href="" class="buyNow">Achetez chez Archambault</a>
