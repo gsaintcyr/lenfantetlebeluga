@@ -9,7 +9,7 @@ const book = {
     chapters: [
         {
             name: "L'enfant et le béluga",
-            link: "Lenfant_et_le_béluga_Kamouska.mp3",
+            link: "https://raw.githubusercontent.com/gsaintcyr/lenfantetlebeluga/refs/heads/core/Lenfant_et_le_b%C3%A9luga_Kamouska.mp3",
             reader: "Eve Landry",
             duration: "00:48:43"
         },
