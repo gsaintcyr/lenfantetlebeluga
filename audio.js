@@ -73,6 +73,7 @@ new Vue({
     data: {
         handle_clicked: false,
         handle_position: 0,
+        isInitializing: true,
         animationFrameId: null,
         audioContext: null,
         bar: null,
@@ -194,6 +195,7 @@ new Vue({
         });
         this.audio_obj.onerror = this.onError;
         this.audio_obj.load();
+        this.$nextTick(() => { this.isInitializing = false; });
     },
     methods: {
         onError: function () {
@@ -483,7 +485,8 @@ new Vue({
     },
     watch: {
         audio_index: function (newIndex, oldVal) {
-            if (!this.audio_obj || !this.book.chapters[newIndex]) return;
+            if (this.isInitializing || newIndex === oldVal ||
+                !this.audio_obj || !this.book.chapters[newIndex]) return;
 
             this.current_time = 0;
             this.duration = 0;
