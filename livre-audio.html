@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conte pour tous">
+    <meta name="description" content="Écoutez L’enfant et le béluga, le conte de Gaétane Saint-Cyr raconté par Ève Landry. Reprenez l’écoute où vous l’avez laissée.">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -16,6 +16,7 @@
 <body>
 
     <a href="/" class="backHomeLink">Retour à la page d'accueil</a>
+    <a href="/livre-en-ligne.html" class="readOnlineLink">Lire le conte en ligne</a>
 
     <div id='app'>
         <div id='player-wrapper' :data-show-list="(show_list) ? 'true' : 'false'"
@@ -24,15 +25,23 @@
 
             <div class='toolbar'>
                 <div id='ripple-effect-info' :class="{active: show_info == true}"></div>
-                <div id='close' :class="{show: show_list == true || show_info == true}"
-                    @click='show_list = false; show_info = false'>
-                    <i class="fas fa-times"></i>
+                <div id='close' role="button" tabindex="0" aria-label="Fermer le panneau"
+                    :class="{show: show_list == true || show_info == true}"
+                    @click='show_list = false; show_info = false'
+                    @keydown.enter.space.prevent='show_list = false; show_info = false'>
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </div>
-                <div class='list-icon' @click='show_list = !show_list' v-if='show_list == false && show_info == false'>
-                    <i class="fas fa-stream"></i>
+                <div class='list-icon' role="button" tabindex="0" aria-label="Afficher la liste des chapitres"
+                    @click='show_list = !show_list'
+                    @keydown.enter.space.prevent='show_list = !show_list'
+                    v-if='show_list == false && show_info == false'>
+                    <i class="fas fa-stream" aria-hidden="true"></i>
                 </div>
-                <div class='info-icon' @click='show_info = !show_info' v-if='show_list == false && show_info == false'>
-                    <i class="fas fa-info-circle"></i>
+                <div class='info-icon' role="button" tabindex="0" aria-label="Afficher les informations du livre"
+                    @click='show_info = !show_info'
+                    @keydown.enter.space.prevent='show_info = !show_info'
+                    v-if='show_list == false && show_info == false'>
+                    <i class="fas fa-info-circle" aria-hidden="true"></i>
                 </div>
             </div>
             <div class='info-container'>
@@ -41,7 +50,11 @@
 
             <div class='playlist-container'>
                 <div class='list-container'>
-                    <div class='list-item' v-for='(c, i) in book.chapters' @click='audio_index = i'
+                    <div class='list-item' role="button" tabindex="0" v-for='(c, i) in book.chapters'
+                        @click='audio_index = i'
+                        @keydown.enter.space.prevent='audio_index = i'
+                        :aria-pressed="audio_index == i"
+                        :aria-label="'Écouter : ' + c.name"
                         :class="{active: audio_index == i}">
                         <div class='loading' v-if='is_loading == true'> </div>
                         <div class="title">{{c.name}}</div>
@@ -59,13 +72,17 @@
                 </div>
                 <div class="cover-wrapper">
                     <div class='prev-next'>
-                        <div class='prev' :class="{disabled: audio_index <= 0}" @click='playPrev'>
-                            <i class="fas fa-backward"></i>
+                        <div class='prev' role="button" tabindex="0" aria-label="Piste précédente"
+                            :aria-disabled="audio_index <= 0" :class="{disabled: audio_index <= 0}"
+                            @click='playPrev' @keydown.enter.space.prevent='playPrev'>
+                            <i class="fas fa-backward" aria-hidden="true"></i>
                         </div>
 
-                        <div class='next' :class="{disabled: audio_index >= book.chapters.length - 1}"
-                            @click='playNext'>
-                            <i class="fas fa-forward"></i>
+                        <div class='next' role="button" tabindex="0" aria-label="Piste suivante"
+                            :aria-disabled="audio_index >= book.chapters.length - 1"
+                            :class="{disabled: audio_index >= book.chapters.length - 1}"
+                            @click='playNext' @keydown.enter.space.prevent='playNext'>
+                            <i class="fas fa-forward" aria-hidden="true"></i>
                         </div>
                     </div>
                     <spectrum :pins='normlizeAudioPins' v-on:avarage="updateAvarage($event)"></spectrum>
@@ -75,7 +92,12 @@
                 </div>
                 <div class="chapter">{{book.chapters[audio_index].name}}</div>
                 <div class="audio-bar-wrapper">
-                    <div class="audio-bar-container" @mousedown='barClick'>
+                    <div class="audio-bar-container" role="slider" tabindex="0"
+                        aria-label="Position dans le conte"
+                        :aria-valuemin="0" :aria-valuemax="Math.floor(duration || 0)"
+                        :aria-valuenow="Math.floor(current_time || 0)"
+                        :aria-valuetext="currentTime + ' sur ' + endTime"
+                        @pointerdown="barPointerDown" @keydown="seekByKeyboard">
                         <div class="bar" ref='bar'>
                             <span class='loading' v-if='is_loading == true'></span>
                             <span class='played' :style="{width:handlePosition}"></span>
@@ -89,29 +111,42 @@
                     </div>
                 </div>
                 <div class='options'>
-                    <div class='speed' @click="toggleSpeed"> {{speed}}x </div>
-                    <div class='repeat' @click="repeat = !repeat" :class="{active: repeat == true}">
-                        <i class='material-icons'>repeat</i>
+                    <div class='speed' role="button" tabindex="0" aria-label="Modifier la vitesse de lecture"
+                        @click="toggleSpeed" @keydown.enter.space.prevent="toggleSpeed"> {{speed}}x </div>
+                    <div class='repeat' role="button" tabindex="0" :aria-pressed="repeat"
+                        aria-label="Répéter le conte" @click="repeat = !repeat"
+                        @keydown.enter.space.prevent="repeat = !repeat" :class="{active: repeat == true}">
+                        <i class='material-icons' aria-hidden="true">repeat</i>
                     </div>
-                    <div class="auto-playlist" @click="list_play = !list_play" :class="{active: list_play == true}">
-                        <i class="material-icons">playlist_play</i>
+                    <div class="auto-playlist" role="button" tabindex="0" :aria-pressed="list_play"
+                        aria-label="Lecture automatique de la liste"
+                        @click="list_play = !list_play" @keydown.enter.space.prevent="list_play = !list_play"
+                        :class="{active: list_play == true}">
+                        <i class="material-icons" aria-hidden="true">playlist_play</i>
                     </div>
                 </div>
                 <div class='controls'>
-                    <div class="decrease-minute" @click="moveAudio('decrease', '60')"
-                        :class='{inactive: current_time < 60}'>-1m
+                    <div class="decrease-minute" role="button" tabindex="0" aria-label="Reculer d’une minute"
+                        @click="moveAudio('decrease', '60')"
+                        @keydown.enter.space.prevent="moveAudio('decrease', '60')"
+                        :class='{inactive: current_time < 60}'>-1m</div>
+                    <div class="decrease-seconds" role="button" tabindex="0" aria-label="Reculer de trente secondes"
+                        @click="moveAudio('decrease', '30')"
+                        @keydown.enter.space.prevent="moveAudio('decrease', '30')"
+                        :class='{inactive: current_time < 30}'>-30s</div>
+                    <div class="play-pause" role="button" tabindex="0"
+                        :aria-label="is_playing ? 'Mettre en pause' : 'Écouter le conte'"
+                        :aria-pressed="is_playing" @click='playAudio()' @keydown.enter.space.prevent='playAudio()'>
+                        <i class="fas fa-play" aria-hidden="true" v-if='is_playing == false'></i>
+                        <i class="fas fa-pause" aria-hidden="true" v-if='is_playing == true'></i>
                     </div>
-                    <div class="decrease-seconds" @click="moveAudio('decrease', '30')"
-                        :class='{inactive: current_time < 30}'>-30s
-                    </div>
-                    <div class="play-pause" @click='playAudio()'>
-                        <i class="fas fa-play" v-if='is_playing == false'></i>
-                        <i class="fas fa-pause" v-if='is_playing == true'></i>
-                    </div>
-                    <div class="increase-seconds" @click="moveAudio('increase', '30')"
-                        :class='{inactive: leftTime < 30}'>+30s
-                    </div>
-                    <div class="increase-minute" @click="moveAudio('increase', '60')"
+                    <div class="increase-seconds" role="button" tabindex="0" aria-label="Avancer de trente secondes"
+                        @click="moveAudio('increase', '30')"
+                        @keydown.enter.space.prevent="moveAudio('increase', '30')"
+                        :class='{inactive: leftTime < 30}'>+30s</div>
+                    <div class="increase-minute" role="button" tabindex="0" aria-label="Avancer d’une minute"
+                        @click="moveAudio('increase', '60')"
+                        @keydown.enter.space.prevent="moveAudio('increase', '60')"
                         :class='{inactive: leftTime < 60}'>+1m</div>
 
                 </div>

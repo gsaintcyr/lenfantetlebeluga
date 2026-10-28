@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conte pour tous">
+    <meta name="description" content="Lisez en ligne L’enfant et le béluga de Gaétane Saint-Cyr, un conte illustré sur l’amitié, le fleuve Saint-Laurent et la protection de la Terre.">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -18,9 +18,13 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'AvenirNext-Regular', sans-serif;
-            font-size: 1.25rem;
+            font-size: var(--reader-font-size, 1.25rem);
             max-width: 700px;
             width: 100%;
             margin: 0 auto;
@@ -37,6 +41,121 @@
             font-family: 'AvenirNext-Bold', sans-serif;
             line-height: 1.2;
         }
+        h2 {
+            scroll-margin-top: 8rem;
+        }
+
+        @media (max-width: 520px) {
+            h2 {
+                scroll-margin-top: 12rem;
+            }
+        }
+
+        #reading-tools {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            margin: -1.25rem -1.25rem 1.25rem;
+            padding: 0.75rem 1rem;
+            background: rgba(33, 33, 33, 0.98);
+            border-bottom: 1px solid #555;
+            font-size: 0.9rem;
+        }
+
+        #reading-tools label {
+            font-size: 0.85rem;
+            color: #eaeaea;
+        }
+
+        #reading-tools select,
+        #reading-tools button,
+        #reading-tools a {
+            min-height: 2.4rem;
+            border: 1px solid #777;
+            border-radius: 0.35rem;
+            padding: 0.45rem 0.65rem;
+            background: #303030;
+            color: #fff;
+            font: inherit;
+            line-height: 1.2;
+            text-decoration: none;
+        }
+
+        #reading-tools select {
+            max-width: 100%;
+            flex: 1 1 10rem;
+        }
+
+        #reading-tools button,
+        #reading-tools a {
+            cursor: pointer;
+        }
+
+        #reading-tools button:hover,
+        #reading-tools a:hover {
+            background: #484848;
+        }
+
+        #reading-tools button:focus-visible,
+        #reading-tools a:focus-visible,
+        #reading-tools select:focus-visible {
+            outline: 3px solid #ffdc73;
+            outline-offset: 2px;
+        }
+
+        #reading-tools .font-controls {
+            display: inline-flex;
+            gap: 0.3rem;
+        }
+
+        #reading-tools [hidden] {
+            display: none !important;
+        }
+
+        body.reader-high-contrast {
+            background: #000;
+            color: #fff;
+        }
+
+        body.reader-high-contrast #reading-tools {
+            background: #000;
+            border-bottom-color: #fff;
+        }
+
+        body.reader-high-contrast #reading-tools select,
+        body.reader-high-contrast #reading-tools button,
+        body.reader-high-contrast #reading-tools a {
+            background: #000;
+            color: #fff;
+            border-color: #fff;
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 0.75rem;
+            }
+
+            #reading-tools {
+                margin: -0.75rem -0.75rem 1rem;
+                padding: 0.55rem;
+                gap: 0.35rem;
+            }
+
+            #reading-tools label {
+                flex: 1 0 100%;
+                text-align: center;
+            }
+
+            #reading-tools select {
+                flex-basis: 100%;
+            }
+        }
+
         .introduction {
             margin-top: 60px;
         }
@@ -77,7 +196,23 @@
         }
     </style>
 
-    <img src="/img/image1.jpg" alt="image1" />
+    <nav id="reading-tools" aria-label="Outils de lecture">
+        <label for="section-select">Aller à une section</label>
+        <select id="section-select" aria-label="Choisir un chapitre ou une section">
+            <option value="">Choisir une section…</option>
+        </select>
+        <div class="font-controls" role="group" aria-label="Taille du texte">
+            <button id="font-decrease" type="button" aria-label="Diminuer la taille du texte">A−</button>
+            <button id="font-increase" type="button" aria-label="Augmenter la taille du texte">A+</button>
+            <button id="font-reset" type="button" aria-label="Rétablir la taille du texte">Aa</button>
+        </div>
+        <button id="contrast-toggle" type="button" aria-pressed="false">Contraste renforcé</button>
+        <button id="resume-reading" type="button" hidden>Reprendre ma lecture</button>
+        <a href="/livre-audio.html">Écouter le conte</a>
+        <a href="/">Accueil</a>
+    </nav>
+
+    <img src="/img/image1.jpg" alt="Page couverture de L’enfant et le béluga" />
 
     <div class="introduction">
         <p> Rédaction : Gaétane Saint-Cyr</p>
@@ -700,6 +835,113 @@
     <p> Hélène Desjardins Page 56 http:/helenedesjardins.artacademie.com helenegil@videotron.ca</p>
 
     <p> Crédit photo : Christian Thériault photographe</p>
+
+    <script>
+        (function () {
+            var sectionSelect = document.getElementById("section-select");
+            var fontDecrease = document.getElementById("font-decrease");
+            var fontIncrease = document.getElementById("font-increase");
+            var fontReset = document.getElementById("font-reset");
+            var contrastToggle = document.getElementById("contrast-toggle");
+            var resumeButton = document.getElementById("resume-reading");
+            var headings = Array.prototype.slice.call(document.querySelectorAll("h2"));
+            var seenIds = {};
+            var seenLabels = {};
+
+            headings.forEach(function (heading, index) {
+                var label = heading.textContent.replace(/\s+/g, " ").trim();
+                var slug = label.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || ("section-" + index);
+                var id = slug;
+                var suffix = 2;
+                while (seenIds[id] || document.getElementById(id)) {
+                    id = slug + "-" + suffix;
+                    suffix += 1;
+                }
+                seenIds[id] = true;
+                heading.id = id;
+
+                var labelCount = (seenLabels[label] || 0) + 1;
+                seenLabels[label] = labelCount;
+                var option = document.createElement("option");
+                option.value = id;
+                option.textContent = labelCount > 1 ? label + " (" + labelCount + ")" : label;
+                sectionSelect.appendChild(option);
+            });
+
+            function readSetting(key) {
+                try { return localStorage.getItem(key); } catch (error) { return null; }
+            }
+
+            function writeSetting(key, value) {
+                try { localStorage.setItem(key, value); } catch (error) {}
+            }
+
+            var savedFontSize = parseFloat(readSetting("belugaReaderFontSize"));
+            var fontSize = isFinite(savedFontSize) ? Math.max(1, Math.min(1.8, savedFontSize)) : 1.25;
+
+            function applyFontSize() {
+                document.documentElement.style.setProperty("--reader-font-size", fontSize + "rem");
+                writeSetting("belugaReaderFontSize", String(fontSize));
+            }
+
+            applyFontSize();
+
+            fontDecrease.addEventListener("click", function () {
+                fontSize = Math.max(1, Math.round((fontSize - 0.1) * 100) / 100);
+                applyFontSize();
+            });
+            fontIncrease.addEventListener("click", function () {
+                fontSize = Math.min(1.8, Math.round((fontSize + 0.1) * 100) / 100);
+                applyFontSize();
+            });
+            fontReset.addEventListener("click", function () {
+                fontSize = 1.25;
+                applyFontSize();
+            });
+
+            var savedContrast = readSetting("belugaReaderHighContrast") === "true";
+            document.body.classList.toggle("reader-high-contrast", savedContrast);
+            contrastToggle.setAttribute("aria-pressed", String(savedContrast));
+            contrastToggle.addEventListener("click", function () {
+                var enabled = document.body.classList.toggle("reader-high-contrast");
+                contrastToggle.setAttribute("aria-pressed", String(enabled));
+                writeSetting("belugaReaderHighContrast", String(enabled));
+            });
+
+            sectionSelect.addEventListener("change", function () {
+                var target = document.getElementById(sectionSelect.value);
+                if (target) {
+                    target.scrollIntoView({ behavior: "smooth", block: "start" });
+                    target.setAttribute("tabindex", "-1");
+                    target.focus({ preventScroll: true });
+                }
+            });
+
+            var savedScroll = parseInt(readSetting("belugaReaderProgress") || "0", 10);
+            if (isFinite(savedScroll) && savedScroll > 500) {
+                resumeButton.hidden = false;
+                resumeButton.addEventListener("click", function () {
+                    window.scrollTo({ top: savedScroll, behavior: "smooth" });
+                    resumeButton.hidden = true;
+                });
+            }
+
+            var saveScheduled = false;
+            window.addEventListener("scroll", function () {
+                if (saveScheduled) return;
+                saveScheduled = true;
+                window.requestAnimationFrame(function () {
+                    writeSetting("belugaReaderProgress", String(window.scrollY || window.pageYOffset || 0));
+                    saveScheduled = false;
+                });
+            }, { passive: true });
+
+            window.addEventListener("pagehide", function () {
+                writeSetting("belugaReaderProgress", String(window.scrollY || window.pageYOffset || 0));
+            });
+        })();
+    </script>
 
     <!-- Default Statcounter code for L'enfant et le beluga
 https://lenfantetlebeluga.com/ -->

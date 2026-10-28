@@ -73,6 +73,9 @@ new Vue({
     data: {
         handle_clicked: false,
         handle_position: 0,
+        isInitializing: true,
+        animationFrameId: null,
+        audioContext: null,
         bar: null,
         is_playing: false,
         is_loading: true,
@@ -100,63 +103,105 @@ new Vue({
         this.bar = this.$refs.bar.getBoundingClientRect();
         let handle = this.$refs.handle;
 
-        document.addEventListener("mousedown", this.mouseDown);
-        document.addEventListener("mouseup", (e) => (this.handle_click = false));
-        document.addEventListener("mousemove", this.moveHandler);
+        document.addEventListener("pointerup", () => { this.handle_clicked = false; });
+        document.addEventListener("pointercancel", () => { this.handle_clicked = false; });
+        document.addEventListener("pointermove", this.moveHandler);
 
         window.addEventListener("resize", this.resizeHandler);
 
-        // initiate audio obj
-        this.audio_obj = new Audio(this.book.chapters[this.audio_index].link);
-        this.audio_obj.crossOrigin = "anonymous";
-        this.audio_obj.src = this.book.chapters[this.audio_index].link;
-        this.audio_obj.load();
-
-        this.audio_obj.addEventListener("timeupdate", () => {
-            localStorage.setItem("audiobookTime", this.audio_obj.currentTime);
-            localStorage.setItem("audiobookChapter", this.audio_index);
-        });
-
-        const savedTime = localStorage.getItem("audiobookTime");
-        const savedChapter = localStorage.getItem("audiobookChapter");
-
-        if (savedChapter !== null) {
-            this.audio_index = parseInt(savedChapter, 10);
-            this.audio_obj.src = this.book.chapters[this.audio_index].link;
-            this.audio_obj.load();
+        // Initialiser le lecteur après avoir installé les écouteurs d'événements.
+        let savedTime = null;
+        let savedChapter = null;
+        try {
+            savedTime = localStorage.getItem("audiobookTime");
+            savedChapter = localStorage.getItem("audiobookChapter");
+        } catch (error) {
+            // Le lecteur reste fonctionnel même si le stockage local est indisponible.
         }
 
+        const parsedSavedChapter = Number.parseInt(savedChapter, 10);
+        const hasSavedChapter = Number.isInteger(parsedSavedChapter) &&
+            parsedSavedChapter >= 0 && parsedSavedChapter < this.book.chapters.length;
+        if (hasSavedChapter) this.audio_index = parsedSavedChapter;
+
+        this.audio_obj = new Audio();
+        this.audio_obj.crossOrigin = "anonymous";
+        this.audio_obj.preload = "metadata";
+        this.audio_obj.src = this.book.chapters[this.audio_index].link;
+
+        this.audio_obj.addEventListener("timeupdate", () => {
+            this.current_time = Number.isFinite(this.audio_obj.currentTime) ? this.audio_obj.currentTime : 0;
+            try {
+                localStorage.setItem("audiobookTime", String(this.current_time));
+                localStorage.setItem("audiobookChapter", String(this.audio_index));
+                localStorage.setItem("audiobookTime-" + this.audio_index, String(this.current_time));
+            } catch (error) {
+                // L'écoute continue sans sauvegarde si le navigateur bloque localStorage.
+            }
+        });
+
         this.audio_obj.addEventListener("loadedmetadata", () => {
-            if (savedTime !== null) {
-                this.audio_obj.currentTime = parseFloat(savedTime);
+            this.duration = Number.isFinite(this.audio_obj.duration) ? this.audio_obj.duration : 0;
+            this.is_loading = false;
+
+            let chapterTime = null;
+            try {
+                chapterTime = localStorage.getItem("audiobookTime-" + this.audio_index);
+            } catch (error) {}
+
+            // Compatibilité avec l'ancienne sauvegarde, qui ne gérait qu'une seule position.
+            if (chapterTime === null && hasSavedChapter && this.audio_index === parsedSavedChapter) {
+                chapterTime = savedTime;
             }
 
-            this.audio_obj.addEventListener("canplay", () => {
-                this.is_loading = false;
-                // Consider auto-playing the audio here, if that fits your user experience
-                // this.audio_obj.play();
-            });
+            const resumeAt = Number.parseFloat(chapterTime);
+            if (Number.isFinite(resumeAt) && resumeAt > 0 && this.duration > 0 &&
+                resumeAt < this.duration - 1 && this.audio_obj.currentTime < 0.5) {
+                this.audio_obj.currentTime = resumeAt;
+                this.current_time = resumeAt;
+            }
         });
 
         this.audio_obj.addEventListener("loadeddata", () => {
-            this.duration = this.audio_obj.duration;
+            this.duration = Number.isFinite(this.audio_obj.duration) ? this.audio_obj.duration : 0;
         });
 
         this.audio_obj.addEventListener("ended", this.onEnded);
         this.audio_obj.addEventListener("progress", this.onProgress);
         this.audio_obj.addEventListener("loadedmetadata", this.onProgress);
-        this.audio_obj.addEventListener("playing", (e) => (this.is_playing = true));
-        this.audio_obj.addEventListener("pause", (e) => (this.is_playing = false));
-        this.audio_obj.addEventListener(
-            "canplay",
-            (e) => (this.is_loading = false)
-        );
-        this.audio_obj.addEventListener("seeking", (e) => (this.is_loading = true));
+        this.audio_obj.addEventListener("playing", () => {
+            this.is_playing = true;
+            this.is_loading = false;
+            if (this.analyser && this.animationFrameId === null) {
+                this.animationFrameId = requestAnimationFrame(this.timeUpdated);
+            }
+        });
+        this.audio_obj.addEventListener("pause", () => {
+            this.is_playing = false;
+            if (this.animationFrameId !== null) {
+                cancelAnimationFrame(this.animationFrameId);
+                this.animationFrameId = null;
+            }
+        });
+        this.audio_obj.addEventListener("canplay", () => {
+            this.is_loading = false;
+        });
+        this.audio_obj.addEventListener("seeking", () => {
+            this.is_loading = true;
+        });
+        this.audio_obj.addEventListener("seeked", () => {
+            this.is_loading = false;
+            this.current_time = this.audio_obj.currentTime || 0;
+        });
         this.audio_obj.onerror = this.onError;
+        this.audio_obj.load();
+        this.$nextTick(() => { this.isInitializing = false; });
     },
     methods: {
         onError: function () {
-            let msg = this.audio_obj.error.code + `: ` + this.audio_obj.error.message;
+            const audioError = this.audio_obj && this.audio_obj.error;
+            let msg = audioError ? (audioError.code + ": " + (audioError.message || "Erreur de lecture")) :
+                "Impossible de charger le fichier audio.";
             console.error("ERROR", msg);
             this.is_error = true;
             this.error_msg = msg;
@@ -193,6 +238,10 @@ new Vue({
             this.repeat = false;
         },
         onProgress: function (e) {
+            if (!Number.isFinite(this.duration) || this.duration <= 0 || !this.audio_obj) {
+                this.buffered = [];
+                return;
+            }
             const oneSecond = 100 / this.duration;
             const ranges = [];
             for (var i = 0; i < this.audio_obj.buffered.length; i++) {
@@ -212,11 +261,15 @@ new Vue({
             this.cover_art_avarage = event;
         },
         timeUpdated: function () {
-            this.current_time = this.audio_obj.currentTime;
+            if (!this.audio_obj || this.audio_obj.paused || !this.analyser || !this.data_array.length) {
+                this.animationFrameId = null;
+                return;
+            }
+
+            this.current_time = Number.isFinite(this.audio_obj.currentTime) ? this.audio_obj.currentTime : 0;
             this.analyser.getByteTimeDomainData(this.data_array);
             this.audio_pins = Array.from(this.data_array);
-
-            requestAnimationFrame(this.timeUpdated);
+            this.animationFrameId = requestAnimationFrame(this.timeUpdated);
         },
         playNext: function () {
             const newIndex = this.audio_index + 1;
@@ -232,31 +285,58 @@ new Vue({
             this.audio_index = newIndex;
         },
         initAnalyser: function () {
-            const ctx = new AudioContext();
-            this.analyser = ctx.createAnalyser();
-            const audioSrc = ctx.createMediaElementSource(this.audio_obj);
+            if (this.analyser || !this.audio_obj) return;
 
-            // we could configure the analyser: e.g. analyser.fftSize (for further infos read the spec)
-            // 256
-            this.analyser.minDecibels = -90;
-            this.analyser.maxDecibels = -10;
-            this.analyser.smoothingTimeConstant = 0.75;
-            this.analyser.fftSize = 128;
+            try {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContextClass) return;
 
-            // we have to connect the MediaElementSource with the analyser
-            audioSrc.connect(this.analyser);
-            this.analyser.connect(ctx.destination);
+                this.audioContext = new AudioContextClass();
+                this.analyser = this.audioContext.createAnalyser();
+                const audioSrc = this.audioContext.createMediaElementSource(this.audio_obj);
 
-            const bufferLength = this.analyser.frequencyBinCount;
-            this.data_array = new Uint8Array(bufferLength);
+                this.analyser.minDecibels = -90;
+                this.analyser.maxDecibels = -10;
+                this.analyser.smoothingTimeConstant = 0.75;
+                this.analyser.fftSize = 128;
+                audioSrc.connect(this.analyser);
+                this.analyser.connect(this.audioContext.destination);
+
+                this.data_array = new Uint8Array(this.analyser.frequencyBinCount);
+                if (this.audioContext.state === "suspended") this.audioContext.resume().catch(function () {});
+            } catch (error) {
+                // L'animation est facultative : l'audio doit fonctionner même sans analyseur.
+                this.analyser = null;
+                this.data_array = [];
+            }
         },
         playAudio: function () {
-            if (this.is_playing) this.audio_obj.pause();
-            else this.audio_obj.play();
+            if (!this.audio_obj) return;
 
-            if (this.analyser == null) {
-                this.initAnalyser();
-                requestAnimationFrame(this.timeUpdated);
+            if (this.is_playing) {
+                this.audio_obj.pause();
+                return;
+            }
+
+            this.initAnalyser();
+            if (this.audioContext && this.audioContext.state === "suspended") {
+                this.audioContext.resume().catch(function () {});
+            }
+
+            const playResult = this.audio_obj.play();
+            if (playResult && typeof playResult.catch === "function") {
+                playResult.catch((error) => {
+                    this.is_playing = false;
+                    this.is_loading = false;
+                    if (error && error.name !== "AbortError") {
+                        this.is_error = true;
+                        this.error_msg = "La lecture n’a pas pu démarrer. Réessayez avec le bouton Lecture.";
+                    }
+                });
+            }
+
+            if (this.analyser && this.animationFrameId === null) {
+                this.animationFrameId = requestAnimationFrame(this.timeUpdated);
             }
         },
         toggleSpeed: function () {
@@ -283,19 +363,49 @@ new Vue({
             this.speed = parseFloat(speedArray[newIndex]);
             this.audio_obj.playbackRate = this.speed;
         },
-        barClick: function (e) {
-            const clickPos = e.clientX - this.bar.x;
-            const time = (clickPos * this.duration) / this.bar.width;
-            this.audio_obj.currentTime = time;
-            this.handle_click = true;
+        barPointerDown: function (e) {
+            if (!this.audio_obj || !Number.isFinite(this.duration) || this.duration <= 0) return;
+
+            this.bar = this.$refs.bar.getBoundingClientRect();
+            this.handle_clicked = true;
+            if (e.currentTarget && e.currentTarget.setPointerCapture && e.pointerId !== undefined) {
+                try { e.currentTarget.setPointerCapture(e.pointerId); } catch (error) {}
+            }
+            this.seekFromPointer(e);
         },
-        mouseDown: function (e) {
-            if (e.target.id == "handle") this.handle_click = true;
+        seekFromPointer: function (e) {
+            if (!this.audio_obj || !this.bar || this.bar.width <= 0 ||
+                !Number.isFinite(this.duration) || this.duration <= 0) return;
+
+            const left = Math.max(0, Math.min(this.bar.width, e.clientX - this.bar.left));
+            const time = (left / this.bar.width) * this.duration;
+            this.current_time = time;
+            this.audio_obj.currentTime = time;
+        },
+        seekByKeyboard: function (e) {
+            if (!this.audio_obj || !Number.isFinite(this.duration) || this.duration <= 0) return;
+
+            let target = this.audio_obj.currentTime || 0;
+            switch (e.key) {
+                case "ArrowLeft": target -= 5; break;
+                case "ArrowRight": target += 5; break;
+                case "PageDown": target -= 30; break;
+                case "PageUp": target += 30; break;
+                case "Home": target = 0; break;
+                case "End": target = this.duration; break;
+                default: return;
+            }
+            e.preventDefault();
+            target = Math.max(0, Math.min(this.duration, target));
+            this.current_time = target;
+            this.audio_obj.currentTime = target;
         },
         resizeHandler: function () {
             this.bar = this.$refs.bar.getBoundingClientRect();
         },
         formatSeconds: function (secs) {
+            if (!Number.isFinite(Number(secs)) || Number(secs) < 0) return "00:00";
+            secs = Number(secs);
             var hr = Math.floor(secs / 3600);
             var min = Math.floor((secs - hr * 3600) / 60);
             var sec = Math.floor(secs - hr * 3600 - min * 60);
@@ -310,19 +420,7 @@ new Vue({
             return min + ":" + sec;
         },
         moveHandler: function (e) {
-            let barWidth = this.bar.width;
-            let barLeft = this.bar.x;
-            let barRight = this.bar.right;
-
-            if (this.handle_click) {
-                let left = e.clientX - barLeft;
-                if (left < 0) left = 0;
-
-                if (left > barWidth) left = barWidth;
-
-                this.current_time = (left * this.duration) / barWidth;
-                this.audio_obj.currentTime = this.current_time;
-            }
+            if (this.handle_clicked) this.seekFromPointer(e);
         },
         moveAudio: function (direction, amount) {
             let newTime = this.current_time;
@@ -351,7 +449,9 @@ new Vue({
             return this.formatSeconds(this.current_time);
         },
         handlePosition: function () {
-            return (this.current_time * 100) / this.duration + "%";
+            if (!Number.isFinite(this.duration) || this.duration <= 0 ||
+                !Number.isFinite(this.current_time) || this.current_time <= 0) return "0%";
+            return Math.max(0, Math.min(100, (this.current_time * 100) / this.duration)) + "%";
         },
         leftTime: function () {
             return this.duration - this.current_time;
@@ -385,9 +485,26 @@ new Vue({
     },
     watch: {
         audio_index: function (newIndex, oldVal) {
+            if (this.isInitializing || newIndex === oldVal ||
+                !this.audio_obj || !this.book.chapters[newIndex]) return;
+
+            this.current_time = 0;
+            this.duration = 0;
+            this.buffered = [];
             this.audio_obj.src = this.book.chapters[newIndex].link;
-            this.audio_obj.play();
+            this.audio_obj.load();
             this.is_loading = true;
+
+            const playResult = this.audio_obj.play();
+            if (playResult && typeof playResult.catch === "function") {
+                playResult.catch((error) => {
+                    this.is_playing = false;
+                    if (error && error.name !== "AbortError") {
+                        this.is_error = true;
+                        this.error_msg = "La piste n’a pas pu démarrer. Utilisez le bouton Lecture pour réessayer.";
+                    }
+                });
+            }
         }
     }
 });
