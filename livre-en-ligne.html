@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conte pour tous">
+    <meta name="description" content="Lisez en ligne L’enfant et le béluga de Gaétane Saint-Cyr, un conte illustré sur l’amitié, le fleuve Saint-Laurent et la protection de la Terre.">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -43,6 +43,12 @@
         }
         h2 {
             scroll-margin-top: 8rem;
+        }
+
+        @media (max-width: 520px) {
+            h2 {
+                scroll-margin-top: 12rem;
+            }
         }
 
         #reading-tools {
@@ -843,8 +849,8 @@
             var seenLabels = {};
 
             headings.forEach(function (heading, index) {
-                var label = heading.textContent.replace(/\\s+/g, " ").trim();
-                var slug = label.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")
+                var label = heading.textContent.replace(/\s+/g, " ").trim();
+                var slug = label.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                     .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || ("section-" + index);
                 var id = slug;
                 var suffix = 2;
