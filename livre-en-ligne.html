@@ -67,6 +67,14 @@
             font-size: 0.9rem;
         }
 
+        #reader-menu-toggle {
+            display: none;
+        }
+
+        #reader-menu-options {
+            display: contents;
+        }
+
         #reading-tools label {
             font-size: 0.85rem;
             color: #eaeaea;
@@ -144,15 +152,67 @@
                 margin: -0.75rem -0.75rem 1rem;
                 padding: 0.55rem;
                 gap: 0.35rem;
+                justify-content: flex-start;
+                flex-direction: column;
+                align-items: stretch;
             }
 
-            #reading-tools label {
-                flex: 1 0 100%;
-                text-align: center;
+            #reader-menu-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                align-self: flex-start;
+                gap: 0.55rem;
+                min-width: 7rem;
+                font-weight: 600;
+                cursor: pointer;
             }
 
-            #reading-tools select {
-                flex-basis: 100%;
+            #reader-menu-toggle .menu-icon {
+                font-size: 1.2rem;
+                line-height: 1;
+            }
+
+            #reading-tools #reader-menu-options {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.4rem;
+                padding-top: 0.35rem;
+            }
+
+            #reading-tools.menu-open #reader-menu-options {
+                display: flex;
+            }
+
+            #reading-tools #reader-menu-options > * {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            #reading-tools #reader-menu-options label {
+                flex: 0 0 auto;
+                text-align: left;
+                padding-top: 0.2rem;
+            }
+
+            #reading-tools #reader-menu-options select {
+                flex-basis: auto;
+            }
+
+            #reading-tools #reader-menu-options .font-controls {
+                display: flex;
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            #reading-tools #reader-menu-options .font-controls button {
+                flex: 1 1 0;
+            }
+
+            #reading-tools.menu-open #reader-menu-toggle {
+                align-self: flex-start;
             }
         }
 
@@ -197,6 +257,12 @@
     </style>
 
     <nav id="reading-tools" aria-label="Outils de lecture">
+        <button id="reader-menu-toggle" type="button" aria-expanded="false"
+            aria-controls="reader-menu-options" aria-label="Ouvrir le menu de lecture">
+            <span class="menu-icon" aria-hidden="true">☰</span>
+            <span id="reader-menu-label">Menu</span>
+        </button>
+        <div id="reader-menu-options">
         <label for="section-select">Aller à une section</label>
         <select id="section-select" aria-label="Choisir un chapitre ou une section">
             <option value="">Choisir une section…</option>
@@ -210,6 +276,7 @@
         <button id="resume-reading" type="button" hidden>Reprendre ma lecture</button>
         <a href="/livre-audio.html">Écouter le conte</a>
         <a href="/">Accueil</a>
+        </div>
     </nav>
 
     <img src="/img/image1.jpg" alt="Page couverture de L’enfant et le béluga" />
@@ -844,6 +911,40 @@
             var fontReset = document.getElementById("font-reset");
             var contrastToggle = document.getElementById("contrast-toggle");
             var resumeButton = document.getElementById("resume-reading");
+            var readerMenuToggle = document.getElementById("reader-menu-toggle");
+            var readerMenuOptions = document.getElementById("reader-menu-options");
+            var readerMenu = document.getElementById("reading-tools");
+
+            function setReaderMenuOpen(isOpen) {
+                readerMenu.classList.toggle("menu-open", isOpen);
+                readerMenuToggle.setAttribute("aria-expanded", String(isOpen));
+                readerMenuToggle.setAttribute("aria-label", isOpen ? "Fermer le menu de lecture" : "Ouvrir le menu de lecture");
+                document.getElementById("reader-menu-label").textContent = isOpen ? "Fermer" : "Menu";
+            }
+
+            readerMenuToggle.addEventListener("click", function () {
+                setReaderMenuOpen(readerMenuToggle.getAttribute("aria-expanded") !== "true");
+            });
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape" && readerMenuToggle.getAttribute("aria-expanded") === "true") {
+                    setReaderMenuOpen(false);
+                    readerMenuToggle.focus();
+                }
+            });
+
+            document.addEventListener("pointerdown", function (event) {
+                if (readerMenuToggle.getAttribute("aria-expanded") === "true" && !readerMenu.contains(event.target)) {
+                    setReaderMenuOpen(false);
+                }
+            });
+
+            readerMenuOptions.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener("click", function () {
+                    setReaderMenuOpen(false);
+                });
+            });
+
             var headings = Array.prototype.slice.call(document.querySelectorAll("h2"));
             var seenIds = {};
             var seenLabels = {};
@@ -912,6 +1013,7 @@
             sectionSelect.addEventListener("change", function () {
                 var target = document.getElementById(sectionSelect.value);
                 if (target) {
+                    setReaderMenuOpen(false);
                     target.scrollIntoView({ behavior: "smooth", block: "start" });
                     target.setAttribute("tabindex", "-1");
                     target.focus({ preventScroll: true });
@@ -922,6 +1024,7 @@
             if (isFinite(savedScroll) && savedScroll > 500) {
                 resumeButton.hidden = false;
                 resumeButton.addEventListener("click", function () {
+                    setReaderMenuOpen(false);
                     window.scrollTo({ top: savedScroll, behavior: "smooth" });
                     resumeButton.hidden = true;
                 });
