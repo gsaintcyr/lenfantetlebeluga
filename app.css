@@ -318,3 +318,280 @@ select#selector {
 }
     
 }
+
+
+/* -------------------------------------------------------
+   Boutons d'accueil - rafraîchissement visuel
+   Palette inspirée du fleuve : bleu profond, sauge et sable.
+   ------------------------------------------------------- */
+
+:root {
+    --cta-ink: #203b43;
+    --cta-river: #285d63;
+    --cta-river-hover: #1f4d53;
+    --cta-sand: #f7f2ea;
+    --cta-border: #d7e2df;
+    --cta-shadow: 0 8px 22px rgba(32, 59, 67, 0.09);
+    --cta-shadow-hover: 0 14px 28px rgba(32, 59, 67, 0.16);
+}
+
+/* Espacement plus régulier des actions de la page d'accueil. */
+.gridCTA .ctasWrapper {
+    gap: clamp(12px, 1.25vw, 20px);
+}
+
+.gridCTA .ctasWrapper > .ctaItem {
+    background: var(--cta-sand);
+    border: 1px solid rgba(40, 93, 99, 0.10);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(32, 59, 67, 0.045);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.gridCTA .ctasWrapper > .ctaItem:first-child {
+    padding: clamp(22px, 2.5vw, 40px);
+}
+
+/* Boutons principaux : zones tactiles confortables et libellés nets. */
+.gridCTA .ctasWrapper > .ctaItem > a.buyNow,
+.gridCTA .ctasWrapper > .ctaItem > a.action,
+.gridCTA .ctasWrapper > .ctaItem > a.readMore {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    min-height: 76px;
+    padding: 20px 76px 20px 26px;
+    border: 1px solid transparent;
+    border-radius: 15px;
+    background: #e7efec;
+    color: var(--cta-ink);
+    font-family: 'AvenirNext-Bold', sans-serif;
+    font-size: clamp(1.02rem, 1.3vw, 1.18rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.005em;
+    text-decoration: none;
+    box-shadow: 0 3px 10px rgba(32, 59, 67, 0.06);
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        background-color 0.22s ease,
+        border-color 0.22s ease,
+        color 0.22s ease;
+}
+
+/* Les actions les plus importantes ressortent en bleu profond. */
+.gridCTA .ctasWrapper > .ctaItem > a.buyNow {
+    background: var(--cta-river);
+    color: #fff;
+    box-shadow: 0 7px 18px rgba(40, 93, 99, 0.18);
+}
+
+/* Écouter, lire et contacter : variantes plus légères, mais cohérentes. */
+.gridCTA .ctasWrapper > .ctaItem > a.action {
+    background: #fff;
+    border-color: var(--cta-border);
+    color: var(--cta-river);
+}
+
+.gridCTA .ctasWrapper > .ctaItem:first-child > a.readMore {
+    display: inline-flex;
+    width: auto;
+    min-height: 48px;
+    padding: 12px 58px 12px 18px;
+    border-radius: 999px;
+    background: #fff;
+    border-color: var(--cta-border);
+    color: var(--cta-river);
+    font-size: 0.98rem;
+}
+
+/* Flèche discrète placée dans un cercle à droite du bouton. */
+.gridCTA .ctasWrapper > .ctaItem > a.buyNow::after,
+.gridCTA .ctasWrapper > .ctaItem > a.action::after,
+.gridCTA .ctasWrapper > .ctaItem > a.readMore::after {
+    content: '→';
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    border-radius: 50%;
+    background: rgba(40, 93, 99, 0.10);
+    color: var(--cta-river);
+    font-family: Arial, sans-serif;
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 1;
+    transform: translateY(-50%);
+    transition: transform 0.22s ease, background-color 0.22s ease, color 0.22s ease;
+}
+
+.gridCTA .ctasWrapper > .ctaItem > a.buyNow::after {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+/* Survol et clavier : retour visuel clair, sans animation excessive. */
+.gridCTA .ctasWrapper > .ctaItem > a.buyNow:hover,
+.gridCTA .ctasWrapper > .ctaItem > a.buyNow:focus-visible {
+    background: var(--cta-river-hover);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: var(--cta-shadow-hover);
+}
+
+.gridCTA .ctasWrapper > .ctaItem > a.action:hover,
+.gridCTA .ctasWrapper > .ctaItem > a.action:focus-visible,
+.gridCTA .ctasWrapper > .ctaItem:first-child > a.readMore:hover,
+.gridCTA .ctasWrapper > .ctaItem:first-child > a.readMore:focus-visible {
+    background: #eaf2ef;
+    border-color: #a9c2bd;
+    color: var(--cta-river-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--cta-shadow-hover);
+}
+
+.gridCTA .ctasWrapper > .ctaItem > a.buyNow:hover::after,
+.gridCTA .ctasWrapper > .ctaItem > a.buyNow:focus-visible::after {
+    background: rgba(255, 255, 255, 0.24);
+    color: #fff;
+    transform: translate(4px, -50%);
+}
+
+.gridCTA .ctasWrapper > .ctaItem > a.action:hover::after,
+.gridCTA .ctasWrapper > .ctaItem > a.action:focus-visible::after,
+.gridCTA .ctasWrapper > .ctaItem:first-child > a.readMore:hover::after,
+.gridCTA .ctasWrapper > .ctaItem:first-child > a.readMore:focus-visible::after {
+    background: var(--cta-river);
+    color: #fff;
+    transform: translate(4px, -50%);
+}
+
+.gridCTA .ctasWrapper > .ctaItem > a:focus-visible,
+.gridCTA .moreOptionsWrapper > a:focus-visible,
+.gridCTA .moreOptions:focus-visible {
+    outline: 3px solid #d6a56f;
+    outline-offset: 3px;
+}
+
+/* Options d'achat : boutons secondaires plus compacts. */
+.gridCTA .moreOptions {
+    align-self: flex-start;
+    margin: 8px 0 0;
+    padding: 10px 16px;
+    border: 1px solid var(--cta-border);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--cta-river);
+    font-family: 'AvenirNext-Bold', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.gridCTA .moreOptions:hover {
+    background: #eaf2ef;
+    border-color: #a9c2bd;
+}
+
+.gridCTA .moreOptionsWrapper > a.buyNow,
+.gridCTA .moreInfoInner > a.download {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    min-height: 58px;
+    padding: 14px 56px 14px 18px;
+    border: 1px solid var(--cta-border);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--cta-river);
+    font-size: 1rem;
+    line-height: 1.25;
+    box-shadow: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.gridCTA .moreOptionsWrapper > a.buyNow::after,
+.gridCTA .moreInfoInner > a.download::after {
+    right: 14px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #e7efec;
+    color: var(--cta-river);
+    font-size: 19px;
+}
+
+.gridCTA .moreOptionsWrapper > a.buyNow:hover,
+.gridCTA .moreInfoInner > a.download:hover {
+    background: #eaf2ef;
+    border-color: #a9c2bd;
+    color: var(--cta-river-hover);
+    transform: translateY(-1px);
+}
+
+.gridCTA .moreOptionsWrapper > a.buyNow:hover::after,
+.gridCTA .moreInfoInner > a.download:hover::after {
+    transform: translate(3px, -50%);
+}
+
+/* Réduit la densité sur téléphone et conserve de grandes zones tactiles. */
+@media (max-width: 600px) {
+    .gridCTA .ctasWrapper {
+        gap: 12px;
+    }
+
+    .gridCTA .ctasWrapper > .ctaItem {
+        border-radius: 15px;
+    }
+
+    .gridCTA .ctasWrapper > .ctaItem > a.buyNow,
+    .gridCTA .ctasWrapper > .ctaItem > a.action {
+        min-height: 68px;
+        padding: 17px 66px 17px 18px;
+        border-radius: 13px;
+        font-size: 1.02rem;
+    }
+
+    .gridCTA .ctasWrapper > .ctaItem > a.buyNow::after,
+    .gridCTA .ctasWrapper > .ctaItem > a.action::after {
+        right: 13px;
+        width: 34px;
+        height: 34px;
+        font-size: 21px;
+    }
+
+    .gridCTA .ctasWrapper > .ctaItem:first-child > a.readMore {
+        min-height: 44px;
+        padding: 10px 52px 10px 16px;
+    }
+
+    .gridCTA .moreOptionsWrapper > a.buyNow,
+    .gridCTA .moreInfoInner > a.download {
+        min-height: 54px;
+        padding: 13px 52px 13px 15px;
+        font-size: 0.96rem;
+    }
+}
+
+/* Respecte le réglage système de réduction des animations. */
+@media (prefers-reduced-motion: reduce) {
+    .gridCTA .ctasWrapper > .ctaItem,
+    .gridCTA .ctasWrapper > .ctaItem > a,
+    .gridCTA .ctasWrapper > .ctaItem > a::after,
+    .gridCTA .moreOptions,
+    .gridCTA .moreOptionsWrapper > a,
+    .gridCTA .moreInfoInner > a.download {
+        transition: none !important;
+    }
+}
