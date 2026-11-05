@@ -735,3 +735,20 @@ body {
     background-color: rgba(255, 255, 255, 0.25);
     color: #FFFFFF;
 }
+
+
+/* -------------------------------------------------------
+   Typographie des titres : Mali, choisie pour son tracé
+   manuscrit et arrondi, proche du lettrage de la couverture.
+   ------------------------------------------------------- */
+.gridCTA .ctasWrapper > .ctaItem:first-child > h1,
+.gridCTA .ctasWrapper > .ctaItem > a.buyNow,
+.gridCTA .ctasWrapper > .ctaItem > a.action,
+.gridCTA .ctasWrapper > .ctaItem:first-child > a.readMore {
+    font-family: 'Mali', 'AvenirNext-Bold', cursive;
+    font-weight: 600;
+}
+
+.gridCTA .ctasWrapper > .ctaItem:first-child > h1 {
+    line-height: 1.2;
+}
