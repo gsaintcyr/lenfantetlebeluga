@@ -628,9 +628,9 @@ body {
     border-color: rgba(28, 44, 74, 0.12);
 }
 
-/* 1 — En savoir plus : bleu presque blanc. */
+/* 1 — En savoir plus : reprend le bleu ardoise du troisième bouton bleu. */
 .gridCTA .ctasWrapper > .ctaItem:nth-child(1) > a.readMore {
-    background-color: var(--cover-blue-1);
+    background-color: var(--cover-blue-4);
     border-color: rgba(28, 44, 74, 0.12);
     color: var(--cover-navy);
 }
@@ -684,7 +684,7 @@ body {
 /* Le survol assombrit légèrement chaque bouton sans inverser la palette. */
 .gridCTA .ctasWrapper > .ctaItem:nth-child(1) > a.readMore:hover,
 .gridCTA .ctasWrapper > .ctaItem:nth-child(1) > a.readMore:focus-visible {
-    background-color: #D8DFDC;
+    background-color: #6E879B;
     color: var(--cover-navy);
 }
 
