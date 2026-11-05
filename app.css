@@ -595,3 +595,138 @@ select#selector {
         transition: none !important;
     }
 }
+
+
+/* -------------------------------------------------------
+   Palette de la couverture : bleu marine et sable chaud
+   Les six actions principales sont ordonnées du plus pâle
+   au plus foncé, de haut en bas.
+   ------------------------------------------------------- */
+
+:root {
+    --cover-navy: #1C2C4A;
+    --cover-sand: #B7A184;
+    --cover-paper: #F2EADF;
+
+    --cover-blue-1: #E7E9E4;
+    --cover-blue-2: #CDD7D8;
+    --cover-blue-3: #A9BBC7;
+    --cover-blue-4: #8098AA;
+    --cover-blue-5: #506C84;
+    --cover-blue-6: #1C2C4A;
+}
+
+/* Fond général : beige chaud inspiré du rivage de l'illustration. */
+body {
+    background-color: var(--cover-sand);
+    color: var(--cover-navy);
+}
+
+/* Les blocs de contenu restent clairs afin de se détacher du fond sable. */
+.gridCTA .ctasWrapper > .ctaItem {
+    background-color: var(--cover-paper);
+    border-color: rgba(28, 44, 74, 0.12);
+}
+
+/* 1 — En savoir plus : bleu presque blanc. */
+.gridCTA .ctasWrapper > .ctaItem:nth-child(1) > a.readMore {
+    background-color: var(--cover-blue-1);
+    border-color: rgba(28, 44, 74, 0.12);
+    color: var(--cover-navy);
+}
+
+/* 2 — Acheter le livre : bleu brume léger. */
+.gridCTA .ctasWrapper > .ctaItem:nth-child(2) > a.buyNow {
+    background-color: var(--cover-blue-2);
+    border-color: rgba(28, 44, 74, 0.10);
+    color: var(--cover-navy);
+}
+
+/* 3 — Écouter : bleu-gris moyen clair. */
+.gridCTA .ctasWrapper > .ctaItem:nth-child(3) > a.action {
+    background-color: var(--cover-blue-3);
+    border-color: rgba(28, 44, 74, 0.10);
+    color: var(--cover-navy);
+}
+
+/* 4 — Lire : bleu ardoise. */
+.gridCTA .ctasWrapper > .ctaItem:nth-child(4) > a.action {
+    background-color: var(--cover-blue-4);
+    border-color: rgba(28, 44, 74, 0.12);
+    color: var(--cover-navy);
+}
+
+/* 5 — Télécharger : bleu profond, texte blanc. */
+.gridCTA .ctasWrapper > .ctaItem:nth-child(5) > a.buyNow {
+    background-color: var(--cover-blue-5);
+    border-color: var(--cover-blue-5);
+    color: #FFFFFF;
+}
+
+/* 6 — Écrire à l'autrice : bleu marine de la couverture. */
+.gridCTA .ctasWrapper > .ctaItem:nth-child(6) > a.action {
+    background-color: var(--cover-blue-6);
+    border-color: var(--cover-blue-6);
+    color: #FFFFFF;
+}
+
+/* Flèches contrastées, assorties à chaque groupe de teintes. */
+.gridCTA .ctasWrapper > .ctaItem:nth-child(-n+4) > a::after {
+    background-color: rgba(28, 44, 74, 0.10);
+    color: var(--cover-navy);
+}
+
+.gridCTA .ctasWrapper > .ctaItem:nth-child(n+5) > a::after {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: #FFFFFF;
+}
+
+/* Le survol assombrit légèrement chaque bouton sans inverser la palette. */
+.gridCTA .ctasWrapper > .ctaItem:nth-child(1) > a.readMore:hover,
+.gridCTA .ctasWrapper > .ctaItem:nth-child(1) > a.readMore:focus-visible {
+    background-color: #D8DFDC;
+    color: var(--cover-navy);
+}
+
+.gridCTA .ctasWrapper > .ctaItem:nth-child(2) > a.buyNow:hover,
+.gridCTA .ctasWrapper > .ctaItem:nth-child(2) > a.buyNow:focus-visible {
+    background-color: #B9C8CC;
+    color: var(--cover-navy);
+}
+
+.gridCTA .ctasWrapper > .ctaItem:nth-child(3) > a.action:hover,
+.gridCTA .ctasWrapper > .ctaItem:nth-child(3) > a.action:focus-visible {
+    background-color: #94AAB9;
+    color: var(--cover-navy);
+}
+
+.gridCTA .ctasWrapper > .ctaItem:nth-child(4) > a.action:hover,
+.gridCTA .ctasWrapper > .ctaItem:nth-child(4) > a.action:focus-visible {
+    background-color: #6E879B;
+    color: var(--cover-navy);
+}
+
+.gridCTA .ctasWrapper > .ctaItem:nth-child(5) > a.buyNow:hover,
+.gridCTA .ctasWrapper > .ctaItem:nth-child(5) > a.buyNow:focus-visible {
+    background-color: #405A70;
+    color: #FFFFFF;
+}
+
+.gridCTA .ctasWrapper > .ctaItem:nth-child(6) > a.action:hover,
+.gridCTA .ctasWrapper > .ctaItem:nth-child(6) > a.action:focus-visible {
+    background-color: #14223B;
+    color: #FFFFFF;
+}
+
+/* Couleurs des flèches au survol, en accord avec les textes. */
+.gridCTA .ctasWrapper > .ctaItem:nth-child(-n+4) > a:hover::after,
+.gridCTA .ctasWrapper > .ctaItem:nth-child(-n+4) > a:focus-visible::after {
+    background-color: var(--cover-navy);
+    color: #FFFFFF;
+}
+
+.gridCTA .ctasWrapper > .ctaItem:nth-child(n+5) > a:hover::after,
+.gridCTA .ctasWrapper > .ctaItem:nth-child(n+5) > a:focus-visible::after {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #FFFFFF;
+}
