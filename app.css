@@ -628,6 +628,11 @@ body {
     border-color: rgba(28, 44, 74, 0.12);
 }
 
+/* Bloc de présentation du conte : bleu le plus pâle de la palette. */
+.gridCTA .ctasWrapper > .ctaItem:first-child {
+    background-color: var(--cover-blue-1);
+}
+
 /* 1 — En savoir plus : reprend le bleu ardoise du troisième bouton bleu. */
 .gridCTA .ctasWrapper > .ctaItem:nth-child(1) > a.readMore {
     background-color: var(--cover-blue-4);
